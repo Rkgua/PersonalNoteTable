@@ -19,3 +19,11 @@ body {
   color: var(--text);
   line-height: 1.6;
 }
+
+/* 内联 SVG 图标 */
+.icon-inline {
+  width: 16px;
+  height: 16px;
+  vertical-align: middle;
+  margin-top: -2px;
+}

@@ -81,7 +81,7 @@
           <!-- 移除内容预览 post-body -->
           <div class="post-footer">
             <div class="post-footer-left">
-              <span class="post-category">📂 {{ post.category }}</span>
+              <span class="post-category"><img :src="IconFolder" class="icon-inline" /> {{ post.category }}</span>
               <!-- 难度选择 -->
               <span class="difficulty-group">
                 <span
@@ -104,7 +104,7 @@
       <!-- 批量操作栏 -->
       <div v-if="selectedPostIds.size > 0" class="batch-bar">
         <span class="batch-info">已选 {{ selectedPostIds.size }} 篇</span>
-        <button class="batch-move-btn" @click="showMoveModal = true">📂 移动</button>
+        <button class="batch-move-btn" @click="showMoveModal = true"><img :src="IconFolder" class="icon-inline" /> 移动</button>
         <button class="batch-delete-btn" @click="confirmBatchDelete">删除所选</button>
         <button class="batch-cancel-btn" @click="clearSelection">取消选择</button>
       </div>
@@ -201,11 +201,11 @@
         <button
           :class="['tab-btn', { active: uploadTab === 'folder' }]"
           @click="uploadTab = 'folder'"
-        >📁 文件夹导入</button>
+        ><img :src="IconFolder" class="icon-inline" /> 文件夹导入</button>
         <button
           :class="['tab-btn', { active: uploadTab === 'single' }]"
           @click="uploadTab = 'single'"
-        >📄 单文件导入</button>
+        ><img :src="IconSingleFile" class="icon-inline" /> 单文件导入</button>
       </div>
 
       <div class="modal-body">
@@ -327,6 +327,8 @@ import axios from "axios";
  */
 import NavBar from "../components/NavBar.vue";
 import BackToTop from "../components/BackToTop.vue";
+import IconFolder from "../assets/文件夹.svg";
+import IconSingleFile from "../assets/单文件.svg";
 
 /**
  * useRoute: 获取当前路由实例
@@ -769,7 +771,7 @@ const handleFolderChange = (event) => {
     const path = event.target.files[0].webkitRelativePath;
     if (path) {
       const parts = path.split("/");
-      selectedFolderName.value = "📁 " + parts[0] + " (" + event.target.files.length + " 个文件)";
+      selectedFolderName.value = parts[0] + " (" + event.target.files.length + " 个文件)";
     }
   }
 };
@@ -836,7 +838,7 @@ const handleDrop = (e) => {
     if (dragFilesCache.length > 0) {
       dragFolderNameCache = topFolderName || "未分类";
       selectedFolderFiles.value = null; // 清除 FileList 引用，使用缓存
-      selectedFolderName.value = "📁 " + (topFolderName || "未分类") + " (" + dragFilesCache.length + " 个文件)";
+      selectedFolderName.value = (topFolderName || "未分类") + " (" + dragFilesCache.length + " 个文件)";
     } else {
       selectedFolderName.value = "";
     }
