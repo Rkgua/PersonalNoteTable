@@ -39,8 +39,12 @@
             @click="blurred = !blurred"
             :title="blurred ? '点击显示内容' : '点击遮盖内容'"
           >
-            <span v-if="blurred">👁 显示</span>
-            <span v-else>🔒 遮盖</span>
+            <span v-if="blurred"
+              ><img :src="IconLock" class="icon-inline" /> 遮盖</span
+            >
+            <span v-else
+              ><img :src="IconUnlock" class="icon-inline" /> 显示</span
+            >
           </button>
         </div>
         <div
@@ -81,6 +85,8 @@ import { useRoute } from "vue-router";
 import axios from "axios";
 import NavBar from "../components/NavBar.vue";
 import BackToTop from "../components/BackToTop.vue";
+import IconLock from "../assets/icon_lock.svg";
+import IconUnlock from "../assets/icon_unlock.svg";
 
 const route = useRoute();
 const post = ref(null);
@@ -242,7 +248,7 @@ onMounted(() => {
   flex-direction: column;
   background: #fafaf5;
   overflow: hidden; /* 宽度为 0 时隐藏内容 */
-  min-width: 0;     /* 允许 flex 收缩到 0 */
+  min-width: 0; /* 允许 flex 收缩到 0 */
 }
 
 .cue-header {
