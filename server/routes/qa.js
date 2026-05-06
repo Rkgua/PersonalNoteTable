@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const axios = require("axios");
+// Get-Content C:\Users\Public\server.log -Encoding UTF8 | Select-String "\[QA\]" 终端查看日志
 
 // 去掉 HTML 标签，提取纯文本（因为 content 存的是 HTML）
 function stripHtml(html) {

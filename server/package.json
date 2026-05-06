@@ -15,7 +15,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.js"
+    "start": "chcp.com 65001>nul & nodemon index.js"
   },
   "keywords": [],
   "author": "",
