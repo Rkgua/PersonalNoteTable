@@ -30,7 +30,7 @@ const postSchema = new mongoose.Schema({
   },
   author: {
     type: String,
-    default: "Admin", // 默认作者
+    default: "Rkgua", // 默认作者
   },
   createdAt: {
     type: Date,
@@ -40,13 +40,4 @@ const postSchema = new mongoose.Schema({
 
 // 创建模型并导出
 const Post = mongoose.model("Post", postSchema);
-//Post.find(conditions)                    
-//Post.findById(id)                       
-//Post.findOne(conditions)               
-//Post.create(doc)                        
-//Post.deleteOne(conditions)              
-//Post.deleteMany(conditions)
-//Post.updateOne(conditions, updates)      
-//Post.updateMany(conditions, updates)     
-//Post.countDocuments(conditions) 
 module.exports = Post;

@@ -22,7 +22,12 @@ app.use("/uploads", express.static("uploads"));
 app.use("/api/posts", postRoutes);
 app.use("/api/upload", uploadRoutes);
 const qaRoutes = require("./routes/qa");
-app.use("/api/qa",qaRoutes);
+app.use("/api/qa", qaRoutes);
+
+//  全局错误处理中间件（必须在所有路由之后注册）
+const errorHandler = require("./utils/errorHandler");
+app.use(errorHandler);
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

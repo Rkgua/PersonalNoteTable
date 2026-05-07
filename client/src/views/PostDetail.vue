@@ -1,7 +1,7 @@
 <template>
   <NavBar>
     <template #action>
-      <button class="back-btn" @click="$router.back()">← 返回</button>
+      <button class="back-btn" @click="$router.back()">返回</button>
     </template>
   </NavBar>
 
