@@ -6,7 +6,7 @@
   </NavBar>
 
   <div v-if="post" class="cornell-root">
-    <!-- Header -->
+    <!-- 顶部 -->
     <header class="cornell-header">
       <h1>{{ post.title }}</h1>
       <div class="post-meta">
@@ -14,9 +14,9 @@
       </div>
     </header>
 
-    <!-- Cornell Main Row: Cue + Note -->
+    <!-- 主要 -->
     <div class="cornell-row" ref="scrollContainer" @scroll="onScroll">
-      <!-- Cue Column (Left) -->
+      <!-- 问题 (Left) -->
       <div class="cue-column" :style="{ width: cueWidth }">
         <div class="cue-header">问题</div>
         <textarea
@@ -29,8 +29,7 @@
 
       <!-- Draggable Divider -->
       <div class="divider-handle" @mousedown="startResize"></div>
-
-      <!-- Main Note Column (Right) -->
+      <!-- 笔记 (Right) -->
       <div class="note-column">
         <div class="note-toolbar">
           <span class="note-header">笔记</span>
@@ -55,7 +54,7 @@
       </div>
     </div>
 
-    <!-- Summary Section (Bottom) -->
+    <!-- 底部总结部分 -->
     <div class="cornell-summary">
       <div class="summary-header">总结</div>
       <textarea
@@ -97,14 +96,12 @@ const blurred = ref(false);
 const saving = ref(false);
 const saveMsg = ref("");
 
-// Draggable divider state
 // 初始宽度 = 主笔记的 50%（即总宽的 33.33%），用户可拖拽调整
-const cueWidth = ref("calc(33.33% - 3px)");
+const cueWidth = ref("33.33%");
 const isResizing = ref(false);
 
 // Sync scroll state
 const scrollContainer = ref(null);
-const isSyncing = ref(false);
 
 const fetchPost = async () => {
   try {
@@ -125,7 +122,7 @@ const formatDate = (date) => {
 };
 
 const onCueChange = () => {
-  // Auto-adjust textarea height
+  // 同步滚动
   nextTick(() => {
     document
       .querySelectorAll(".cue-textarea, .summary-textarea")
@@ -146,7 +143,7 @@ const saveCueSummary = async () => {
       cue: cueText.value,
       summary: summaryText.value,
     });
-    saveMsg.value = "保存成功 ✓";
+    saveMsg.value = "保存成功";
     setTimeout(() => {
       saveMsg.value = "";
     }, 2000);
@@ -188,13 +185,6 @@ const startResize = (e) => {
   document.addEventListener("mouseup", onMouseUp);
   document.body.style.cursor = "col-resize";
   document.body.style.userSelect = "none";
-};
-
-// Sync scroll between cue and note columns
-const onScroll = () => {
-  if (!scrollContainer.value) return;
-  // Both cue and note are inside the same scroll container,
-  // so they scroll together naturally. No extra sync needed.
 };
 
 onMounted(() => {
@@ -240,7 +230,6 @@ onMounted(() => {
   min-height: 300px;
 }
 
-/* Cue Column */
 .cue-column {
   flex-shrink: 0;
   border-right: 1px solid var(--border);
@@ -474,10 +463,10 @@ onMounted(() => {
   font-style: italic;
 }
 
-/* Handwriting font */
+/* Handwriting 字号调整 */
 .handwriting {
-  font-family: "Ma Shan Zheng", cursive;
-  font-size: 17px;
+  font-family: "KaiTi", "楷体", serif;
+  font-size: 20px;
   line-height: 1.9;
 }
 
