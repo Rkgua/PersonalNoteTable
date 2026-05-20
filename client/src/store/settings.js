@@ -8,6 +8,10 @@ const defaults = {
   textColor: "#333333",
   bgColor: "#f5f5f7",
   showQA: true,
+  deepseekKey: "",
+  aiProvider: "deepseek",
+  aiEndpoint: "",
+  aiModel: "",
   titleColor: "#2c3e50",
   contentColor: "#333333",
   titleSize: "16px",
@@ -19,6 +23,55 @@ const defaults = {
     { title: "菜鸟教程", url: "https://www.runoob.com/" },
   ],
 };
+
+const providerPresets = {
+  deepseek: {
+    label: "DeepSeek",
+    endpoint: "https://api.deepseek.com/v1/chat/completions",
+    model: "deepseek-chat",
+    type: "openai",
+  },
+  openai: {
+    label: "OpenAI",
+    endpoint: "https://api.openai.com/v1/chat/completions",
+    model: "gpt-4o-mini",
+    type: "openai",
+  },
+  groq: {
+    label: "Groq",
+    endpoint: "https://api.groq.com/openai/v1/chat/completions",
+    model: "llama-3.3-70b-versatile",
+    type: "openai",
+  },
+  together: {
+    label: "Together AI",
+    endpoint: "https://api.together.xyz/v1/chat/completions",
+    model: "meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo",
+    type: "openai",
+  },
+  anthropic: {
+    label: "Anthropic Claude",
+    endpoint: "https://api.anthropic.com/v1/messages",
+    model: "claude-sonnet-4-20250520",
+    type: "anthropic",
+  },
+  custom: {
+    label: "自定义",
+    endpoint: "",
+    model: "",
+    type: "openai",
+  },
+};
+
+function getEffectiveConfig() {
+  const preset = providerPresets[settings.aiProvider];
+  if (!preset) return providerPresets.deepseek;
+  return {
+    ...preset,
+    endpoint: settings.aiEndpoint || preset.endpoint,
+    model: settings.aiModel || preset.model,
+  };
+}
 
 function loadSettings() {
   try {
@@ -49,4 +102,4 @@ function applyTheme() {
   document.body.style.fontFamily = settings.fontFamily;
 }
 
-export { settings, saveSettings, applyTheme };
+export { settings, saveSettings, applyTheme, providerPresets, getEffectiveConfig };

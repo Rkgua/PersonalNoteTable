@@ -130,6 +130,37 @@
           </div>
 
           <div class="setting-section">
+            <label>AI 提供商</label>
+            <select v-model="settings.aiProvider" @change="onProviderChange" class="font-select">
+              <option v-for="p in providerList" :key="p.id" :value="p.id">{{ p.label }}</option>
+            </select>
+          </div>
+
+          <div v-if="settings.aiProvider === 'custom'" class="setting-section">
+            <label>自定义端点</label>
+            <input class="site-input" v-model="settings.aiEndpoint" placeholder="https://api.example.com/v1/chat/completions" @change="onCustomEndpointChange" />
+          </div>
+
+          <div v-if="settings.aiProvider === 'custom'" class="setting-section">
+            <label>自定义模型名</label>
+            <input class="site-input" v-model="settings.aiModel" placeholder="model-name" @change="onCustomModelChange" />
+          </div>
+
+          <div v-if="settings.aiProvider !== 'custom'" class="setting-section">
+            <label>模型</label>
+            <div class="current-model">{{ getEffectiveConfig().model }}</div>
+          </div>
+
+          <div class="setting-section">
+            <label>API 密钥（{{ getProviderLabel(settings.aiProvider) }}）</label>
+            <div class="api-key-row">
+              <input class="api-key-input" v-model="apiKeyInput" type="password" :placeholder="keyPlaceholder" />
+              <button class="api-key-save" @click="saveApiKey">保存</button>
+            </div>
+            <div v-if="apiKeyMsg" class="api-key-msg">{{ apiKeyMsg }}</div>
+          </div>
+
+          <div class="setting-section">
             <label>常用网站</label>
             <div class="site-list">
               <div v-for="(site, i) in settings.websites" :key="i" class="site-item">
@@ -167,7 +198,7 @@
 <script setup>
 import { ref, computed } from "vue";
 import { useRoute } from "vue-router";
-import { settings, saveSettings, applyTheme } from "../store/settings";
+import { settings, saveSettings, applyTheme, providerPresets, getEffectiveConfig } from "../store/settings";
 
 const props = defineProps({
   modelValue: String,
@@ -233,6 +264,33 @@ const primaryHex = ref(settings.primaryColor);
 const titleHex = ref(settings.titleColor);
 const contentHex = ref(settings.contentColor);
 const handwritingHex = ref(settings.handwritingBg);
+const apiKeyInput = ref("");
+const apiKeyMsg = ref("");
+
+const providerList = Object.entries(providerPresets).map(([id, cfg]) => ({ id, label: cfg.label }));
+
+function getProviderLabel(id) {
+  return providerPresets[id]?.label || id;
+}
+
+const keyPlaceholder = computed(() => {
+  const p = settings.aiProvider;
+  if (p === "anthropic") return "sk-ant-...";
+  if (p === "groq") return "gsk_...";
+  return "sk-...";
+});
+
+function onProviderChange() {
+  saveSettings();
+}
+
+function onCustomEndpointChange() {
+  saveSettings();
+}
+
+function onCustomModelChange() {
+  saveSettings();
+}
 
 const fonts = [
   { label: "默认", value: "'Segoe UI', 'Microsoft YaHei', sans-serif" },
@@ -272,6 +330,23 @@ function onFontChange() {
 
 function onQAChange() {
   saveSettings();
+}
+
+function saveApiKey() {
+  const key = apiKeyInput.value.trim();
+  const provider = settings.aiProvider;
+  if (provider === "anthropic" && !key.startsWith("sk-ant-")) {
+    apiKeyMsg.value = "Anthropic 密钥应以 sk-ant- 开头";
+    return;
+  }
+  if ((provider === "openai" || provider === "deepseek") && !key.startsWith("sk-")) {
+    apiKeyMsg.value = "密钥格式不正确";
+    return;
+  }
+  settings.deepseekKey = key;
+  saveSettings();
+  apiKeyMsg.value = "✓ 已保存";
+  setTimeout(() => { apiKeyMsg.value = ""; }, 2000);
 }
 
 function changeTitleColor(color) {
@@ -628,5 +703,46 @@ defineExpose({ titleSearchQuery, selectedCategory });
   font-family: monospace;
   text-align: center;
   flex-shrink: 0;
+}
+
+/* API key */
+.api-key-row {
+  display: flex;
+  gap: 8px;
+}
+.api-key-input {
+  flex: 1;
+  padding: 8px 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+.api-key-save {
+  padding: 8px 16px;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  white-space: nowrap;
+}
+.api-key-save:hover {
+  opacity: 0.85;
+}
+.api-key-msg {
+  font-size: 13px;
+  color: var(--primary);
+  margin-top: 4px;
+}
+
+.current-model {
+  padding: 8px 10px;
+  background: #f5f5f5;
+  border-radius: 6px;
+  font-size: 13px;
+  color: #666;
+  font-family: monospace;
 }
 </style>
