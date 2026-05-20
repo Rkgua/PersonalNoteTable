@@ -213,7 +213,7 @@ onMounted(() => {
 .cornell-header h1 {
   font-size: 28px;
   margin-bottom: 8px;
-  color: var(--text);
+  color: var(--title-color);
 }
 
 .cornell-header .post-meta {
@@ -235,16 +235,16 @@ onMounted(() => {
   border-right: 1px solid var(--border);
   display: flex;
   flex-direction: column;
-  background: #fafaf5;
+  background: var(--handwriting-bg);
   overflow: hidden; /* 宽度为 0 时隐藏内容 */
   min-width: 0; /* 允许 flex 收缩到 0 */
 }
 
 .cue-header {
   padding: 12px 16px;
-  font-size: 13px;
+  font-size: var(--title-size);
   font-weight: 600;
-  color: var(--primary);
+  color: var(--title-color);
   border-bottom: 1px solid var(--border);
   background: #f5f8f2;
   flex-shrink: 0;
@@ -258,10 +258,10 @@ onMounted(() => {
   outline: none;
   resize: none;
   padding: 16px;
-  font-size: 15px;
+  font-size: var(--content-size);
   line-height: 1.8;
   background: transparent;
-  color: #555;
+  color: var(--content-color);
   min-height: 200px;
   box-sizing: border-box;
 }
@@ -342,9 +342,9 @@ onMounted(() => {
 }
 
 .note-header {
-  font-size: 13px;
+  font-size: var(--title-size);
   font-weight: 600;
-  color: var(--text-secondary);
+  color: var(--title-color);
   letter-spacing: 1px;
 }
 
@@ -367,9 +367,10 @@ onMounted(() => {
 .note-content {
   padding: 24px 28px;
   line-height: 1.8;
-  font-size: 15px;
+  font-size: var(--content-size);
   overflow-wrap: break-word;
   transition: filter 0.3s ease;
+  color: var(--content-color);
 }
 
 .note-content.blurred {
@@ -436,9 +437,9 @@ onMounted(() => {
 
 .summary-header {
   padding: 12px 24px;
-  font-size: 13px;
+  font-size: var(--title-size);
   font-weight: 600;
-  color: var(--primary);
+  color: var(--title-color);
   background: #f5f8f2;
   border-bottom: 1px solid var(--border);
   letter-spacing: 1px;
@@ -450,10 +451,10 @@ onMounted(() => {
   outline: none;
   resize: none;
   padding: 16px 24px;
-  font-size: 15px;
+  font-size: var(--content-size);
   line-height: 1.8;
-  background: #fafaf5;
-  color: #555;
+  background: var(--handwriting-bg);
+  color: var(--content-color);
   min-height: 80px;
   box-sizing: border-box;
 }
@@ -465,8 +466,7 @@ onMounted(() => {
 
 /* Handwriting 字号调整 */
 .handwriting {
-  font-family: "KaiTi", "楷体", serif;
-  font-size: 20px;
+  font-family: var(--handwriting-font);
   line-height: 1.9;
 }
 

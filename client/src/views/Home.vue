@@ -1299,9 +1299,9 @@ onMounted(() => {
 
 .sidebar h3 {
   padding: 0 10px 16px;
-  font-size: 14px;
+  font-size: var(--title-size);
   font-weight: 600;
-  color: #555;
+  color: var(--title-color);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -1348,7 +1348,7 @@ onMounted(() => {
 }
 .blog-header h1 {
   font-size: 28px;
-  color: var(--text);
+  color: var(--title-color);
   margin-bottom: 8px;
 }
 .blog-header p {
@@ -1451,6 +1451,7 @@ onMounted(() => {
 .post-header h2 {
   font-size: 22px;
   margin-bottom: 8px;
+  color: var(--title-color);
 }
 
 .title-link {
